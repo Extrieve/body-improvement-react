@@ -1,15 +1,9 @@
 // import react from React
 import React from 'react';
+import Workout from './WorkoutService';
+import Exercise from './ExerciseService';
 
 const baseUrl = 'http://localhost:8080/user/';
-
-export default interface Workout{
-    
-}
-
-export default interface Exercise{
-    
-}
 
 export default interface User {
     username: string;
@@ -21,7 +15,7 @@ export default interface User {
     height: string;
     aboutMe: string;
     workouts: Workout[];
-    // exercises: Exercise[];
+    exercises: Exercise[];
 }
 
 
@@ -33,8 +27,11 @@ export const getAllUsers = async () => {
             data = res.json();
         }
         else{
-            console.log("Error fetching users");
+            console.log(`There was an error fetching users\nError: ${res.status} ${res.statusText}`);
         }
+    })
+    .catch(err => {
+        console.log(err);
     });
     return data;
 }
