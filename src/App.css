@@ -6,6 +6,13 @@ html {
     margin: 0 auto;
 }
 
+h1 {
+    font-size: 5rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 2rem;
+}
+
 .navlist {
     display: flex;
     flex-direction: row;
