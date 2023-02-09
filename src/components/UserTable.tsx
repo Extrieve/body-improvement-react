@@ -19,8 +19,8 @@ const UserTable: FC = (): ReactElement => {
   useEffect(
     () => {
       getUsers().then(r => console.log(r));
-    }
-  )
+    },[]
+  );
 
   return (
     <div>
