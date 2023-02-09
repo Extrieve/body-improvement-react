@@ -25,6 +25,7 @@ export const getAllUsers = async () => {
     .then(res => {
         if(res.ok){
             data = res.json();
+            console.log("Users fetched successfully");
         }
         else{
             console.log(`There was an error fetching users\nError: ${res.status} ${res.statusText}`);

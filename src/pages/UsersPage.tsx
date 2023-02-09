@@ -1,7 +1,7 @@
 import User, {getAllUsers} from "../service/UserService";
 import {useState} from "react";
 
-const Users = () => {
+const UsersPage = () => {
   const [users, setUsers] = useState<User[]>([]);
 
   const getUsers = async () => {
@@ -15,3 +15,5 @@ const Users = () => {
     </div>
   )
 }
+
+export default UsersPage;

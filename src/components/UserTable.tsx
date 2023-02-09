@@ -1,9 +1,26 @@
 import User, {getAllUsers} from "../service/UserService";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {FC, ReactElement} from "react";
 
-const UserTable: FC = (users: User[]): ReactElement => {
+const UserTable: FC = (): ReactElement => {
   const [users, setUsers] = useState<User[]>([]);
+
+  const getUsers = async () => {
+    const users = await getAllUsers();
+    users.forEach(user => {
+      if (!user.aboutMe){
+        user.aboutMe = "No description provided";
+      }
+    }
+    );
+    setUsers(users);
+  }
+
+  useEffect(
+    () => {
+      getUsers().then(r => console.log(r));
+    }
+  )
 
   return (
     <div>
