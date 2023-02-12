@@ -1,5 +1,4 @@
 // import react from React
-import React from 'react';
 import Workout from './WorkoutService';
 import Exercise from './ExerciseService';
 

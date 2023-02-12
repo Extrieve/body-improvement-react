@@ -2,9 +2,14 @@ const Home = () => {
   return (
     <div>
       <h1>Home</h1>
-      <p>
-        This is the home page. It is currently under construction.
-      </p>
+      <div className="home-box">
+        <h2>
+          Find your perfect workout routine by exploring our user generated content.
+        </h2>
+        <a href="/users">
+        <button className="btn explore">Explore</button>
+        </a>
+      </div>
     </div>
   )
 }
