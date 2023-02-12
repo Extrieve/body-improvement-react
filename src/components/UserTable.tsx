@@ -25,7 +25,7 @@ const UserTable: FC = (): ReactElement => {
   return (
     <div>
       <h1>Users</h1>
-      <table>
+      <table className={'user-table'}>
         <thead>
           <tr>
             <th>Username</th>
