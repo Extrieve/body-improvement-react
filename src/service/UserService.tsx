@@ -35,3 +35,42 @@ export const getAllUsers = async () => {
     });
     return data;
 }
+
+export const getUserByUsername = async (username: string) => {
+    let data: any = new Map();
+    await fetch(`${baseUrl}find/${username}`)
+    .then(res => {
+        if(res.ok){
+            data = res.json();
+            console.log("User fetched successfully");
+        }
+        else{
+            console.log(`There was an error fetching user\nError: ${res.status} ${res.statusText}`);
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+    return data;
+}
+
+export const addUser = async (user: User) => {
+    await fetch(baseUrl + 'save', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+    })
+    .then(res => {
+        if(res.ok){
+            console.log("User added successfully");
+        }
+        else{
+            console.log(`There was an error adding user\nError: ${res.status} ${res.statusText}`);
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+}
