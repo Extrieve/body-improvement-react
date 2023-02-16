@@ -5,6 +5,7 @@ import { Routes, Route } from 'react-router-dom';
 import Nav from "./components/Nav";
 import Home from "./pages/Home";
 import UserTable from "./components/UserTable";
+import UsersPage from './pages/UsersPage';
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
       <Nav />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/users" element={<UserTable />} />
+        <Route path="/users" element={<UsersPage />} />
         <Route path="*" element={<h1>Page Not Found :(</h1>} />
       </Routes>
     </>

@@ -1,4 +1,4 @@
-import User, {getAllUsers} from "../service/UserService";
+import User, {getAllUsers, getAllUsersPageable} from "../service/UserService";
 import {useEffect, useState} from "react";
 import {FC, ReactElement} from "react";
 
@@ -7,7 +7,7 @@ const UserTable: FC = (): ReactElement => {
 
   const getUsers = async () => {
     const users = await getAllUsers();
-    users.forEach(user => {
+    users.forEach((user: User) => {
       if (!user.aboutMe){
         user.aboutMe = "No description provided";
       }
@@ -16,9 +16,18 @@ const UserTable: FC = (): ReactElement => {
     setUsers(users);
   }
 
+  const getUsersPageable = async () => {
+    const users = await getAllUsersPageable(0, 10).then((res) => {
+      console.log(res);
+      return res.content;
+    });
+    setUsers(users);
+  }
+
   useEffect(
     () => {
-      getUsers().then(r => console.log(r));
+      // getUsers().then(r => console.log(r));
+      getUsersPageable();
     },[]
   );
 
