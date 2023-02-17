@@ -27,6 +27,14 @@ export enum UserSort {
     HEIGHT = 'height',
 }
 
+export enum UserPageSize {
+    FIVE = 5,
+    TEN = 10,
+    TWENTYFIVE = 25,
+    FIFTY = 50,
+    ONEHUNDRED = 100,
+}
+
 
 export const getAllUsers = async () => {
     let data: any = [];

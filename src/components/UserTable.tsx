@@ -1,16 +1,15 @@
-import User, {getAllUsers, getAllUsersPageable, UserSort} from "../service/UserService";
+import User, {getAllUsers, getAllUsersPageable, UserSort, UserPageSize} from "../service/UserService";
 import {useEffect, useState} from "react";
 import {FC, ReactElement} from "react";
 
-const props = {
-  defaultPageNumber: 0,
-  pageSizes: [10, 20, 50, 100],
-  defaultPageSize: 10,
-  defaultSortBy: "username",
+type TableProps = {
+  pageNumber: number,
+  pageSize: UserPageSize,
+  sortBy: UserSort,
 }
 
 
-const UserTable: FC = (): ReactElement => {
+const UserTable: FC<TableProps> = ({pageNumber, pageSize, sortBy}): ReactElement => {
   const [users, setUsers] = useState<User[]>([]);
 
   // const getUsers = async () => {
@@ -24,7 +23,7 @@ const UserTable: FC = (): ReactElement => {
   //   setUsers(users);
   // }
 
-  const getUsersPageable = async (pageNumber: number, pageSize: number, sortBy: UserSort = UserSort.USERNAME) => {
+  const getUsersPageable = async (pageNumber: number, pageSize: number, sortBy: UserSort) => {
     const users = await getAllUsersPageable(pageNumber, pageSize, sortBy).then((res) => {
       console.log(res);
       return res.content;
@@ -35,7 +34,7 @@ const UserTable: FC = (): ReactElement => {
   useEffect(
     () => {
       // getUsers().then(r => console.log(r));
-      getUsersPageable(props.defaultPageNumber, props.defaultPageSize);
+      getUsersPageable(pageNumber = 0, pageSize = UserPageSize.ONEHUNDRED, sortBy = UserSort.USERNAME);
     },[]
   );
 
