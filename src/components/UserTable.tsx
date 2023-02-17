@@ -1,23 +1,31 @@
-import User, {getAllUsers, getAllUsersPageable} from "../service/UserService";
+import User, {getAllUsers, getAllUsersPageable, UserSort} from "../service/UserService";
 import {useEffect, useState} from "react";
 import {FC, ReactElement} from "react";
+
+const props = {
+  defaultPageNumber: 0,
+  pageSizes: [10, 20, 50, 100],
+  defaultPageSize: 10,
+  defaultSortBy: "username",
+}
+
 
 const UserTable: FC = (): ReactElement => {
   const [users, setUsers] = useState<User[]>([]);
 
-  const getUsers = async () => {
-    const users = await getAllUsers();
-    users.forEach((user: User) => {
-      if (!user.aboutMe){
-        user.aboutMe = "No description provided";
-      }
-    }
-    );
-    setUsers(users);
-  }
+  // const getUsers = async () => {
+  //   const users = await getAllUsers();
+  //   users.forEach((user: User) => {
+  //     if (!user.aboutMe){
+  //       user.aboutMe = "No description provided";
+  //     }
+  //   }
+  //   );
+  //   setUsers(users);
+  // }
 
-  const getUsersPageable = async () => {
-    const users = await getAllUsersPageable(0, 10).then((res) => {
+  const getUsersPageable = async (pageNumber: number, pageSize: number, sortBy: UserSort = UserSort.USERNAME) => {
+    const users = await getAllUsersPageable(pageNumber, pageSize, sortBy).then((res) => {
       console.log(res);
       return res.content;
     });
@@ -27,7 +35,7 @@ const UserTable: FC = (): ReactElement => {
   useEffect(
     () => {
       // getUsers().then(r => console.log(r));
-      getUsersPageable();
+      getUsersPageable(props.defaultPageNumber, props.defaultPageSize);
     },[]
   );
 
@@ -60,6 +68,8 @@ const UserTable: FC = (): ReactElement => {
           ))}
         </tbody>
       </table>
+      {/* Left and right buttons to go to the previous/next page */}
+
     </div>
   )
 }

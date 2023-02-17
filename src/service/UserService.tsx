@@ -19,7 +19,12 @@ export default interface User {
 
 // Define a UserSort enum
 export enum UserSort {
-    firstName, lastName, username, email, weight, height
+    FIRSTNAME = 'firstName',
+    LASTNAME = 'lastName',
+    USERNAME = 'username',
+    EMAIL = 'email',
+    BODYWEIGHT = 'bodyWeight',
+    HEIGHT = 'height',
 }
 
 
