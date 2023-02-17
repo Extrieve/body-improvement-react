@@ -3,20 +3,19 @@ import {useEffect, useState} from "react";
 import {FC, ReactElement} from "react";
 
 type TableProps = {
-  pageNumber: number,
-  pageSize: UserPageSize,
-  sortBy?: UserSort,
+  initialPageNumber: number,
+  initialPageSize: UserPageSize,
 }
 
 
-const UserTable: FC<TableProps> = ({pageNumber, pageSize, sortBy}): ReactElement => {
+const UserTable: FC<TableProps> = ({initialPageNumber, initialPageSize}): ReactElement => {
 
   const [users, setUsers] = useState<User[]>([]);
 
   // TODO: Finish implementing pagination
-  // const [pageNumber, setPageNumber] = useState<number>(pageNumber);
-  // const [pageSize, setPageSize] = useState<UserPageSize>(pageSize);
-  // const [sortBy, setSortBy] = useState<UserSort>(sortBy);
+  const [pageNumber, setPageNumber] = useState<number>(initialPageNumber);
+  const [pageSize, setPageSize] = useState<UserPageSize>(initialPageSize);
+  const [sortBy, setSortBy] = useState<UserSort>(UserSort.USERNAME);
 
   // const getUsers = async () => {
   //   const users = await getAllUsers();
@@ -28,6 +27,13 @@ const UserTable: FC<TableProps> = ({pageNumber, pageSize, sortBy}): ReactElement
   //   );
   //   setUsers(users);
   // }
+  
+  useEffect(
+    () => {
+      // getUsers().then(r => console.log(r));
+      getUsersPageable(pageNumber, pageSize);
+    },[]
+  );
 
   const getUsersPageable = async (pageNumber: number, pageSize: number, sortBy?: UserSort) => {
     const users = await getAllUsersPageable(pageNumber, pageSize, sortBy).then((res) => {
@@ -37,16 +43,13 @@ const UserTable: FC<TableProps> = ({pageNumber, pageSize, sortBy}): ReactElement
     setUsers(users);
   }
 
-  useEffect(
-    () => {
-      // getUsers().then(r => console.log(r));
-      getUsersPageable(pageNumber = 0, pageSize = UserPageSize.ONEHUNDRED);
-    },[]
-  );
+  const turnPage = async (flip: number) => {
+    setPageNumber(pageNumber + flip);
+    getUsersPageable(pageNumber + flip, pageSize);
+  }
 
   return (
     <div>
-      <h1>Users</h1>
       <table className={'user-table'}>
         <thead>
           <tr>
@@ -74,8 +77,8 @@ const UserTable: FC<TableProps> = ({pageNumber, pageSize, sortBy}): ReactElement
         </tbody>
       </table>
       {/* Left and right buttons to go to the previous/next page */}
-      <button onClick={() => getUsersPageable(pageNumber - 1, pageSize, sortBy)}>Previous Page</button>
-      <button onClick={() => getUsersPageable(pageNumber + 1, pageSize, sortBy)}>Next Page</button>
+      <button onClick={() => turnPage(-1)}>Previous</button>
+      <button onClick={() => turnPage(1)}>Next</button>
     </div>
   )
 }
