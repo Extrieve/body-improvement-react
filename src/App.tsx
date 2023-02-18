@@ -6,6 +6,7 @@ import Nav from "./components/Nav";
 import Home from "./pages/Home";
 import UserTable from "./components/UserTable";
 import UsersPage from './pages/UsersPage';
+import UserRegistrationForm from './components/UserRegistrationForm';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/users" element={<UsersPage />} />
+        <Route path="users/create" element={<UserRegistrationForm />} />
         <Route path="*" element={<h1>Page Not Found :(</h1>} />
       </Routes>
     </>

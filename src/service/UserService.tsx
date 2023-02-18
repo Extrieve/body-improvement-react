@@ -95,7 +95,7 @@ export const getUserByUsername = async (username: string) => {
 }
 
 export const addUser = async (user: User) => {
-    await fetch(baseUrl + 'save', {
+    await fetch(baseUrl + 'user/save', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
