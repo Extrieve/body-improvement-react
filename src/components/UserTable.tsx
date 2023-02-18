@@ -1,6 +1,5 @@
 import User, {getAllUsersPageable, UserSort, UserPageSize} from "../service/UserService";
-import {useEffect, useState} from "react";
-import {FC, ReactElement} from "react";
+import {useEffect, useState, FC, ReactElement} from "react";
 
 interface TableProps {
   initialPageNumber: number,
