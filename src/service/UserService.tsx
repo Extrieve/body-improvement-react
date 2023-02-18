@@ -54,13 +54,13 @@ export const getAllUsers = async () => {
     return data;
 }
 
-export const getAllUsersPageable = async (pageNumber: number, pageSize: number, sortBy?: UserSort) => {
+export const getAllUsersPageable = async (signal: AbortSignal, pageNumber: number, pageSize: number, sortBy?: UserSort) => {
     let data: any = [];
     let requestUrl = baseUrl + `api/v2/all?page=${pageNumber}&size=${pageSize}`;
     // if(!sortBy) sortBy = UserSort.username;
     if(sortBy) requestUrl += `&sort=${sortBy}`;
 
-    await fetch(requestUrl)
+    await fetch(requestUrl, {signal})
     .then(res => {
         if(res.ok){
             data = res.json();
@@ -71,7 +71,8 @@ export const getAllUsersPageable = async (pageNumber: number, pageSize: number, 
         }
     })
     .catch(err => {
-        console.log(err);
+        console.log(`There was an error fetching users\nError: ${err}`);
+        throw new Error(err);
     });
     return data;
 }

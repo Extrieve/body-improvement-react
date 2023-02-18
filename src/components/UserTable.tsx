@@ -17,13 +17,15 @@ const UserTable: FC<TableProps> = ({initialPageNumber, initialPageSize}): ReactE
 
   useEffect(
     () => {
-      // getUsers().then(r => console.log(r));
-      getUsersPageable(pageNumber, pageSize);
+      const controller = new AbortController();
+      const signal = controller.signal;
+      getUsersPageable(signal, pageNumber, pageSize);
+      return () => controller.abort();
     },[]
   );
 
-  const getUsersPageable = async (pageNumber: number, pageSize: number, sortBy?: UserSort) => {
-    const users = await getAllUsersPageable(pageNumber, pageSize, sortBy).then((res) => {
+  const getUsersPageable = async (signal: AbortSignal, pageNumber: number, pageSize: number, sortBy?: UserSort) => {
+    const users = await getAllUsersPageable(signal, pageNumber, pageSize, sortBy).then((res) => {
       console.log(res);
       return res.content;
     });
@@ -31,8 +33,10 @@ const UserTable: FC<TableProps> = ({initialPageNumber, initialPageSize}): ReactE
   }
 
   const turnPage = async (flip: number) => {
+    const controller = new AbortController();
+    const signal = controller.signal;
     setPageNumber(pageNumber + flip);
-    getUsersPageable(pageNumber + flip, pageSize);
+    getUsersPageable(signal ,pageNumber + flip, pageSize);
   }
 
   return (
