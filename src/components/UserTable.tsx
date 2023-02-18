@@ -1,8 +1,8 @@
-import User, {getAllUsers, getAllUsersPageable, UserSort, UserPageSize} from "../service/UserService";
+import User, {getAllUsersPageable, UserSort, UserPageSize} from "../service/UserService";
 import {useEffect, useState} from "react";
 import {FC, ReactElement} from "react";
 
-type TableProps = {
+interface TableProps {
   initialPageNumber: number,
   initialPageSize: UserPageSize,
 }
@@ -12,22 +12,10 @@ const UserTable: FC<TableProps> = ({initialPageNumber, initialPageSize}): ReactE
 
   const [users, setUsers] = useState<User[]>([]);
 
-  // TODO: Finish implementing pagination
   const [pageNumber, setPageNumber] = useState<number>(initialPageNumber);
   const [pageSize, setPageSize] = useState<UserPageSize>(initialPageSize);
   const [sortBy, setSortBy] = useState<UserSort>(UserSort.USERNAME);
 
-  // const getUsers = async () => {
-  //   const users = await getAllUsers();
-  //   users.forEach((user: User) => {
-  //     if (!user.aboutMe){
-  //       user.aboutMe = "No description provided";
-  //     }
-  //   }
-  //   );
-  //   setUsers(users);
-  // }
-  
   useEffect(
     () => {
       // getUsers().then(r => console.log(r));
