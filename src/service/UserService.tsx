@@ -95,6 +95,24 @@ export const getUserByUsername = async (username: string) => {
     return data;
 }
 
+export const getUsersByUsername = async (username: string) => {
+    let data: any = [];
+    await fetch(`${baseUrl}user/find/like/${username}`)
+    .then(res => {
+        if(res.ok){
+            data = res.json();
+            console.log("Users fetched successfully");
+        }
+        else{
+            console.log(`There was an error fetching users\nError: ${res.status} ${res.statusText}`);
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+    return data;
+}
+
 export const addUser = async (user: User) => {
     let status = 0;
     await fetch(baseUrl + 'user/save', {

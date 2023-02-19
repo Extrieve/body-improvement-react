@@ -1,4 +1,4 @@
-import User, {getAllUsersPageable, UserSort, UserPageSize} from "../service/UserService";
+import User, {getAllUsersPageable, getUsersByUsername,UserSort, UserPageSize} from "../service/UserService";
 import {useEffect, useState, FC, ReactElement} from "react";
 
 interface TableProps {
@@ -10,6 +10,7 @@ interface TableProps {
 const UserTable: FC<TableProps> = ({initialPageNumber, initialPageSize}): ReactElement => {
 
   const [users, setUsers] = useState<User[]>([]);
+  const [search, setSearch] = useState<string>('');
 
   const [pageNumber, setPageNumber] = useState<number>(initialPageNumber);
   const [pageSize, setPageSize] = useState<UserPageSize>(initialPageSize);
@@ -32,6 +33,14 @@ const UserTable: FC<TableProps> = ({initialPageNumber, initialPageSize}): ReactE
     setUsers(users);
   }
 
+  const getUsersLikeUsername = async (username: string) => {
+    const users = await getUsersByUsername(username).then((res) => {
+      console.log(res);
+      return res;
+    });
+    setUsers(users);
+  }
+
   const turnPage = async (flip: number) => {
     const controller = new AbortController();
     const signal = controller.signal;
@@ -39,8 +48,17 @@ const UserTable: FC<TableProps> = ({initialPageNumber, initialPageSize}): ReactE
     getUsersPageable(signal ,pageNumber + flip, pageSize);
   }
 
+
   return (
     <div>
+      <input 
+        type="text" 
+        placeholder="Search for users" 
+        value={search}
+        onChange={(e) => {setSearch(e.target.value);}} 
+      />
+      <button onClick={() => getUsersLikeUsername(search)}>Search</button>
+      {/* Search for users with username containing the input */}
       <table className={'user-table'}>
         <thead>
           <tr>
