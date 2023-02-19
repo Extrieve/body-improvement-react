@@ -96,6 +96,7 @@ export const getUserByUsername = async (username: string) => {
 }
 
 export const addUser = async (user: User) => {
+    let status = 0;
     await fetch(baseUrl + 'user/save', {
         method: 'POST',
         headers: {
@@ -106,12 +107,16 @@ export const addUser = async (user: User) => {
     .then(res => {
         if(res.ok){
             console.log("User added successfully");
+            status = res.status;
         }
         else{
             console.log(`There was an error adding user\nError: ${res.status} ${res.statusText}`);
+            status = res.status;
         }
     })
     .catch(err => {
         console.log(err);
     });
+
+    return status;
 }
