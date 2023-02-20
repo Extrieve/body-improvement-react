@@ -113,6 +113,29 @@ export const getUsersByUsername = async (username: string) => {
     return data;
 }
 
+export const getUsersByUsernamePageable = async (signal: AbortSignal, username: string, pageNumber: number, pageSize: number, sortBy?: UserSort) => {
+    let data: any = [];
+    let requestUrl = `${baseUrl}api/v2/find/like/${username}?page=${pageNumber}&size=${pageSize}`;
+    // if(!sortBy) sortBy = UserSort.username;
+    if(sortBy) requestUrl += `&sort=${sortBy}`;
+
+    await fetch(requestUrl, {signal})
+    .then(res => {
+        if(res.ok){
+            data = res.json();
+            console.log("Users fetched successfully");
+        }
+        else{
+            console.log(`There was an error fetching users\nError: ${res.status} ${res.statusText}`);
+        }
+    })
+    .catch(err => {
+        console.log(`There was an error fetching users\nError: ${err}`);
+        throw new Error(err);
+    });
+    return data;
+}
+
 export const addUser = async (user: User) => {
     let status = 0;
     await fetch(baseUrl + 'user/save', {

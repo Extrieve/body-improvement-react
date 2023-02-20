@@ -1,4 +1,4 @@
-import User, {getAllUsersPageable, getUsersByUsername,UserSort, UserPageSize} from "../service/UserService";
+import User, {getAllUsersPageable, getUsersByUsername, getUsersByUsernamePageable,UserSort, UserPageSize} from "../service/UserService";
 import {useEffect, useState, FC, ReactElement} from "react";
 
 interface TableProps {
@@ -40,6 +40,19 @@ const UserTable: FC<TableProps> = ({initialPageNumber, initialPageSize}): ReactE
     });
     setUsers(users);
   }
+
+  const getUsersLikeUsernamePageable = async (username: string, pageNumber: number, pageSize: number, sortBy?: UserSort) => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+    const users = await getUsersByUsernamePageable(signal, username, pageNumber, pageSize, sortBy).then((res) => {
+      console.log(res);
+      return res.content;
+    });
+    setUsers(users);
+
+    return () => controller.abort();
+  }
+
 
   const turnPage = async (flip: number) => {
     const controller = new AbortController();
